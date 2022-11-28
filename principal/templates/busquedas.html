@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Resultados{% endblock title %}
+
+{% block content %}
+
+
+{% if resultados  %}
+
+<div class="row">
+    {% for resultado in resultados %}
+    <div class="col-2 p-2 my-2 mx-3" >
+    <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+      <img class="card-img-top" src="{{ resultado.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+      <div class="card-body">
+        <h6 class="card-title">{{resultado.nombre}}</h6>
+        <p class="card-text">{{resultado.autor}}</p>
+        <a class="btn" style="background-color: #7bc2c2;" href="">Reservar </a>
+      </div>
+      </div>
+    </div>
+  {% endfor %}
+
+{% else %}
+<h1>Busquedas no encontradas</h1>
+{% endif %}
+
+{% endblock content %}

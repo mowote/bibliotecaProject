@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{%bootstrap_messages%}
+
+{% block title  %} 
+    Información personal
+{% endblock title  %}
+
+{% block content %}
+<br> <br>
+<div class="w-50 m-auto" style= "border: cadetblue 2px solid; text-align: center; ">
+ <h1 class="m-auto" >Su reserva se realizó con éxito</h1> 
+    
+        <h2>{{libros.nombre}}</h2>
+        <img src="{{libros.imagen.url}}">
+    <a href="{% url 'usuario' request.user.username %}" class="btn btn-primary">Ver reservas</a>
+ </div>
+<br>
+
+{% endblock content %}

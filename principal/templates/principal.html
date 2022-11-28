@@ -1,0 +1,196 @@
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+
+{% block title  %}
+    
+
+{% endblock title  %}
+
+{% block content %}
+<header  style=" background-color: black ;color: white;" >
+  <br>
+  <div>
+      <h1 class="text-center" style="font-family: Georgia, 'Times New Roman', Times, serif;" >Biblioteca municipal "Joaquín López Gaviria"</h1>
+  </div>
+
+  
+
+<nav class=" container-fluid navbar navbar-expand-sm navbar-dark fixed" style=" background-color:black;" > 
+        
+  <div class="collapse navbar-collapse " id="collapsibleNavId">
+      
+      <ul class="navbar-nav me-auto mt-2 mt-lg-0">        
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'principal' %}" aria-current="page">Inicio <span class="visually-hidden">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'evento'%}" aria-current="page">Eventos <span class="visually-hidden">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'libros'%}" aria-current="page"> Libros <span class="visually-hidden">(current)</span></a>
+        </li>
+        
+        {% if request.user.is_authenticated %}
+        
+          <a class="nav-link active" href="{% url 'logout' %}" aria-current="page">Cerrar sesión <span class="visually-hidden">(current)</span></a>
+        </li>
+        {% else %}
+        <li>
+          <a class="nav-link active" href="{% url 'login' %}" aria-current="page">Iniciar sesión  <span class="visually-hidden">(current)</span></a>      
+        </li>
+        {% endif %}
+        
+        <li class="">
+          <form method="post" action="{% url 'busqueda' %}"  class="d-flex my-2 my-lg-0">
+            {% csrf_token %}
+            <input class="form-control me-sm-2" type="text" name="busqueda" placeholder="Buscar libro">
+            <button class="btn btn-outline-success my-2 my-sm-0" style="background-color: 7bc2c2;border-color: black; color: white;" type="submit">Buscar</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+
+<div style="position: absolute; top:50%;left:34%; padding:1em 3em; color: white; font-family: Georgia, 'Times New Roman', Times, serif;">
+  {% if request.user.is_authenticated %}
+  <h1 class=" text-center">Bienvenid@ {{user.username}} a la </h1>
+  <h1 class="text-center" >Biblioteca municipal </h1>
+  <h1 class="text-center" >"Joaquín López Gaviria"</h1>
+  <a class="btn btn-primary" href="{% url 'usuario' request.user.username %}">ir a la Página personal</a><br>
+  <form class="m-auto" method="post" >  
+  <br>
+  {% endif %}
+</div>
+
+
+<img  src="{% static 'imagenes/libreria.jpg' %}" class="d-block w-100" alt="..." height="650px"  >
+<br> <br>
+
+<h2 style="font-family: serif;">Categoria Infantil</h2>
+<div class="row">
+  {% for c in infantil %}
+  <div class="col-2 p-2 my-2 mx-3" >
+  <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+    <img class="card-img-top" src="{{ c.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+    <div class="card-body">
+      <h6 class="card-title">{{c.nombre}}</h6>
+      <p class="card-text">{{c.autor}}</p>
+      {% if request.user.is_authenticated %}
+        {% if usuario  %}
+          {% if c.unidades >= 1 %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'reservas' c.id %}">Reservar</a>  
+          {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'noDisponible' %}">Reservar</a>  
+          {% endif %}
+        {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'infoPersonal' %}">Reservar</a> 
+        {% endif %}
+      {% else %}
+      <a class="btn" style="background-color: #7bc2c2;" href="{% url 'login' %}">Reservar</a>
+      {% endif %}
+
+  
+    </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<br>
+
+<h1 style="font-family: serif;">Economia</h1>
+<div class="row">
+    {% for c in economia %}
+    <div class="col-2 p-2 my-2 mx-3" >
+    <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+      <img class="card-img-top" src="{{ c.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+      <div class="card-body">
+        <h6 class="card-title">{{c.nombre}}</h6>
+        <p class="card-text">{{c.autor}}</p>
+        {% if request.user.is_authenticated %}
+        {% if usuario  %}
+          {% if c.unidades >= 1 %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'reservas' c.id %}">Reservar</a>  
+          {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'noDisponible' %}">Reservar</a>  
+          {% endif %}
+        {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'infoPersonal' %}">Reservar</a> 
+        {% endif %}
+      {% else %}
+      <a class="btn" style="background-color: #7bc2c2;" href="{% url 'login' %}">Reservar</a>
+      {% endif %}
+
+      </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+<br>
+
+
+<br>
+<h2 style="font-family: serif;">Categoria literatura General</h2>
+<div class="row">
+  {% for c in literatura_general %}
+  <div class="col-2 p-2 my-2 mx-3" >
+  <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+    <img class="card-img-top" src="{{ c.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+    <div class="card-body">
+      <h6 class="card-title">{{c.nombre}}</h6>
+      <p class="card-text">{{c.autor}}</p>
+      {% if request.user.is_authenticated %}
+        {% if usuario  %}
+          {% if c.unidades >= 1 %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'reservas' c.id %}">Reservar</a>  
+          {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'noDisponible' %}">Reservar</a>  
+          {% endif %}
+        {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'infoPersonal' %}">Reservar</a> 
+        {% endif %}
+      {% else %}
+      <a class="btn" style="background-color: #7bc2c2;" href="{% url 'login' %}">Reservar</a>
+      {% endif %}
+
+    </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+<br> 
+
+<h2 style="font-family: serif;">Agropecuaria</h2>
+
+<div class="row">
+  {% for c in agropecuaria %}
+  <div class="col-2 p-2 my-2 mx-3" >
+  <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+    <img class="card-img-top" src="{{ c.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+    <div class="card-body">
+      <h6 class="card-title">{{c.nombre}}</h6>
+      <p class="card-text">{{c.autor}}</p>
+      {% if request.user.is_authenticated %}
+        {% if usuario  %}
+          {% if c.unidades >= 1 %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'reservas' c.id %}">Reservar</a>  
+          {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'noDisponible' %}">Reservar</a>  
+          {% endif %}
+        {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'infoPersonal' %}">Reservar</a> 
+        {% endif %}
+      {% else %}
+      <a class="btn" style="background-color: #7bc2c2;" href="{% url 'login' %}">Reservar</a>
+      {% endif %}
+
+    </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock content %}

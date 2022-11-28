@@ -1,0 +1,96 @@
+
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+
+{% block title  %}
+    
+
+{% endblock title  %}
+
+{% block content %}
+<header  style=" background-color: rgba(23, 74, 75) ;color: white;" >
+  <br>
+  <div>
+    <h1 class="text-center" style="font-family: Georgia, 'Times New Roman', Times, serif;" >Biblioteca municipal "Joaquín López Gaviria"</h1>
+  </div>
+
+<nav class=" container-fluid navbar navbar-expand-sm navbar-dark fixed_top" style=" background-color:#174a4b;" > 
+        
+  <div class="collapse navbar-collapse " id="collapsibleNavId">
+      
+      <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+          
+          <li class="nav-item">
+              <a class="nav-link active" href="{% url 'principal' %}" aria-current="page">Inicio <span class="visually-hidden">(current)</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link active" href="{% url 'evento'%}" aria-current="page">Eventos <span class="visually-hidden">(current)</span></a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link active" href="{% url 'libros'%}" aria-current="page"> Libros <span class="visually-hidden">(current)</span></a>
+          </li>
+       
+         
+         {% if user.is_authenticated %}
+        
+              <div>
+                <a class="nav-link active" href="{% url 'logout' %}" aria-current="page">Cerrar sesión <span class="visually-hidden">(current)</span></a>
+              {% else %}
+              <a class="nav-link active" href="{% url 'login' %}" aria-current="page">Iniciar sesión  <span class="visually-hidden">(current)</span></a>
+              
+              {% endif %}
+          </div>
+  
+      </ul>
+      <form method="post" action="{% url 'busqueda' %}"  class="d-flex my-2 my-lg-0">
+          {% csrf_token %}
+          <input class="form-control me-sm-2" type="text" name="busqueda" placeholder="Buscar libro">
+          <button class="btn btn-outline-success my-2 my-sm-0" style="background-color: 7bc2c2;border-color: black; color: white;" type="submit">Buscar</button>
+      </form>
+
+  </div>
+</nav>
+</header>
+
+
+<br> <br>
+
+ 
+   <h1 style="text-align: center; font-family: ;" >Gran variedad de libros</h1>
+
+   <div class="row">
+     {% for libro in libros %}
+     <div class="col-2 p-3 my-2" >
+     <div class="card text-start" style="border-color:  #9ce3e3; height: 490px; ">
+       <img class="card-img-top" src="{{ libro.imagen.url}}" alt="Title" style="border-radius: 5%;" height="280px" >
+       <div class="card-body">
+         <h6 class="card-title">{{libro.nombre}}</h6>
+         <p class="card-text">{{libro.autor}}</p>
+         
+         {% if request.user.is_authenticated %}
+        {% if usuario  %}
+          {% if libro.unidades >= 1 %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'reservas' libro.id %}">Reservar</a>  
+          {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'noDisponible' %}">Reservar</a>  
+          {% endif %}
+        {% else %}
+          <a class="btn" style="background-color: #7bc2c2;" href="{% url 'infoPersonal' %}">Reservar</a> 
+        {% endif %}
+      {% else %}
+      <a class="btn" style="background-color: #7bc2c2;" href="{% url 'login' %}">Reservar</a>
+      {% endif %}
+
+       </div>
+     </div>
+   </div>
+  {% endfor %}
+   
+
+
+
+</div>
+
+
+{% endblock content %}

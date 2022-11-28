@@ -1,0 +1,82 @@
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript%}
+{% bootstrap_messages%}
+
+
+<head>
+  <title>{% block title %}{% endblock  %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+  <header  style=" background-color: rgba(23, 74, 75) ;color: white;" >
+    <br>
+    <div>
+        <h1 class="text-center" style="font-family: Georgia, 'Times New Roman', Times, serif;" >Biblioteca municipal "Joaquín López Gaviria"</h1>
+    </div>
+    
+    <nav class=" container-fluid navbar navbar-expand-sm navbar-dark fixed" style=" background-color:#174a4b;" > 
+        
+        <div class="collapse navbar-collapse " id="collapsibleNavId">
+            
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'principal' %}" aria-current="page">Inicio <span class="visually-hidden">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'evento'%}" aria-current="page">Eventos <span class="visually-hidden">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'libros'%}" aria-current="page"> Libros <span class="visually-hidden">(current)</span></a>
+                </li>
+               
+               
+               {% if user.is_authenticated %}
+                    <div>
+                        <a class="nav-link active" href="{% url 'logout' %}" aria-current="page">Cerrar sesión  <span class="visually-hidden">(current)</span></a>
+                    {% else %}
+                    <a class="nav-link active" href="{% url 'login' %}" aria-current="page">Iniciar sesión  <span class="visually-hidden">(current)</span></a>
+                    
+                    {% endif %}
+                </div>
+        
+            </ul>
+            <form method="post" action="{% url 'busqueda' %}"  class="d-flex my-2 my-lg-0">
+                {% csrf_token %}
+                <input class="form-control me-sm-2" type="text" name="busqueda" placeholder="Buscar libro">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="background-color: 7bc2c2;border-color: black; color: white;" type="submit">Buscar</button>
+            </form>
+
+        </div>
+    </nav>
+  
+</header>
+  <main  style=" ">
+    {% block content %}
+    
+    {% endblock content %}
+  </main>
+
+
+  <footer>
+    <div  style="padding: 1px;  background-color: black">
+        <div style="color: white" class = "container  ">
+            <h2 >Contactanos</h2>
+            <address>
+                Escribenos: <a href=" bibliotecapueblorrico@gmail.com">Biblioteca</a>.<br/> 
+                correo: bibliotecapueblorrico@gmail.com<br/>
+                a 33-135, Cra. 30 #33-1, Pueblorrico, Antioquia<br/>
+
+            </address>
+        </div>
+    </div>
+  </footer>
+</body>
+
+</html>

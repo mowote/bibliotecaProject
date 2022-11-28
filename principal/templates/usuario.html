@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+
+
+{% block title  %}
+    
+pagina del usuario
+{% endblock title  %}
+
+{% block content %}
+
+
+<br>
+<h1 style=" text-align: center;text-shadow: 3px 2px #3b8283;">Reservas realizadas</h1>
+
+
+
+ {% for u in usuario %}
+   <h2>{{u.nombre}} {{u.apellido}}</h2>
+   {% if u.municipio == "PUEBLORRICO" or u.municipio == "Pueblorrico" or u.municipio == "pueblorrico" %}
+   {% if u.edad >= 18 %}
+   {% endif %}
+   {% endif %}
+ {% endfor %}
+
+<div class=" mx-5">
+    <br>  
+    <table class="border border-dark ">
+        <thead>
+            <colgroup>
+                <col style="width: 20%"/>
+                <col style="width: 10%"/>
+                <col style="width: 20%"/>
+                <col style="width: 10%"/>                        
+            </colgroup>  
+        </thead>
+        <tbody class="">
+            <tr class="border border-dark text-center">
+                
+                <td>Libro</td>
+                <td>Fecha entrega</td>
+                <td>Usuario</td>
+                <td>Entrega</td>
+            </tr>              
+        {% for r in reservas %}    
+        <tr class="text-center">
+            <td>{{r.signatura.nombre}}</td>
+            <td>{{r.fecha_devolucion}}</td>
+            <td>{{r.identificacion.nombre}} {{r.identificacion.apellido}}</td>
+            {% if hoy.date <= r.fecha_devolucion  %}
+            <td>Vigente</td>
+            {% else %}
+            <td>Atrasado</td>
+            {% endif %}
+        </tr>
+        {% endfor %}                
+        </tbody>
+    </table>   
+    <br> 
+</div>
+
+{% endblock content %}

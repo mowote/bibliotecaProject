@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{%bootstrap_messages%}
+
+{% block title  %} 
+    Iniciar sesion
+
+{% endblock title  %}
+
+{% block content %}
+
+<br> <br>
+<form class="m-auto" method="post" style="border: cadetblue 2px solid; width: 700px ; text-align: center;"> 
+    <img  class="m-auto" src="{% static 'imagenes/libreria.jpg' %}" class="d-block w-50" alt="..."
+    style= " height: 20%; border-radius: 80%; margin top: 20px; width: 40%;"  >
+    
+ <h1>Iniciar sesión</h1>
+    {% csrf_token %}
+    {{form.as_p}} 
+    <button  style="background-color: cadetblue; border-radius: 10px; height:38px;" type="submit"> Iniciar sesión  </button>
+    <a class="nav-link active" href="{% url 'registro' %}" aria-current="page"> No tienes una cuenta? Crea  tú cuenta <span class="visually-hidden">(current)</span></a>
+    
+    <br>
+</form>
+<br>
+
+{% endblock content %}
